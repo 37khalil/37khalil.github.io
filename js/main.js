@@ -13,7 +13,7 @@ const channelForm = document.getElementById("channel-form");
 const channelInput = document.getElementById("channel-input");
 const videoContainer = document.getElementById("video-container");
 
-const defaultChannel = "techguyweb";
+const defaultChannel = "khalil alla";
 
 function handleClientLoad() {
   gapi.load("client:auth2", initClient);
