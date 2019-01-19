@@ -104,10 +104,44 @@ function getChannel(channel) {
       `;
 
       showChannelData(output);
+
+      const playListid = channel.contentDetails.relatedPlaylists.uploads;
+      requestVideoPlaylist(playListid);
     })
     .catch(err => alert(err));
 }
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function requestVideoPlaylist(playListid) {
+  const requestOptions = {
+    playlistId: playListid,
+    part: "snippet",
+    maxResults: 10
+  };
+
+  const request = gapi.client.youtube.playlistItems.list(requestOptions);
+
+  request.execute(Response => {
+    const playlistItems = Response.result.items;
+
+    if (playlistItems) {
+      let vids = `<h4 class="center-align">Latest Videos</h4>`;
+
+      playlistItems.forEach(e => {
+        const videoid = e.snippet.resourceId.videoId;
+
+        vids += `
+        <div class="col s3">
+          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/${videoid}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>`;
+      });
+
+      videoContainer.innerHTML = vids;
+    } else {
+      videoContainer.innerHTML = "there is no videos uploaded";
+    }
+  });
 }
