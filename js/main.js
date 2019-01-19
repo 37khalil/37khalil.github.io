@@ -86,14 +86,14 @@ function getChannel(channel) {
         <ul class="collection">
           <li class="collection-item">Title: ${channel.snippet.title}</li>
           <li class="collection-item">ID: ${channel.id}</li>
-          <li class="collection-item">Subscribers: ${channel.statistics.subscriberCount.toLocaleString(
-            "en"
+          <li class="collection-item">Subscribers: ${numberWithCommas(
+            channel.statistics.subscriberCount
           )}</li>
-          <li class="collection-item">Views: ${channel.statistics.viewCount.toLocaleString(
-            "en"
+          <li class="collection-item">Views: ${numberWithCommas(
+            channel.statistics.viewCount
           )}</li>
-          <li class="collection-item">Videos: ${channel.statistics.videoCount.toLocaleString(
-            "en"
+          <li class="collection-item">Videos: ${numberWithCommas(
+            channel.statistics.videoCount
           )}</li>
         </ul>
         <p>${channel.snippet.description}</p>
@@ -106,4 +106,8 @@ function getChannel(channel) {
       showChannelData(output);
     })
     .catch(err => alert(err));
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
